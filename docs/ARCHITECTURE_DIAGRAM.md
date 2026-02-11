@@ -17,7 +17,7 @@ graph TB
     end
     
     subgraph "RabbitMQ Message Broker"
-        EX[Topic Exchange<br/>symbotic.simulation]
+        EX[Topic Exchange<br/>simulation]
         Q1[Queue: sim.order.received]
         Q2[Queue: sim.inventory.update]
         Q3[Queue: sim.order.processed]

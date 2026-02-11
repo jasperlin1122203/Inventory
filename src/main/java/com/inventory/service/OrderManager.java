@@ -30,7 +30,7 @@ public class OrderManager {
     private final SimulationClock simulationClock;
     private final MeterRegistry meterRegistry;
 
-    @Value("${spring.rabbitmq.exchange.name:symbotic.simulation}")
+    @Value("${spring.rabbitmq.exchange.name:simulation}")
     private String exchangeName;
 
     @Value("${spring.rabbitmq.topic.prefix:sim}")

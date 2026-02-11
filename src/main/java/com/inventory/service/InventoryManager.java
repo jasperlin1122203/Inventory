@@ -19,7 +19,7 @@ public class InventoryManager {
 
     private final InventoryItemRepository inventoryRepository;
 
-    @Value("${spring.rabbitmq.exchange.name:symbotic.simulation}")
+    @Value("${spring.rabbitmq.exchange.name:simulation}")
     private String exchangeName;
 
     @Value("${spring.rabbitmq.topic.prefix:sim}")
