@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("${spring.rabbitmq.exchange.name:symbotic.simulation}")
+    @Value("${spring.rabbitmq.exchange.name:simulation}")
     private String exchangeName;
 
     @Value("${spring.rabbitmq.topic.prefix:sim}")

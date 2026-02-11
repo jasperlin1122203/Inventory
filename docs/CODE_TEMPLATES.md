@@ -266,7 +266,7 @@ public class OrderInjector {
 ### Send Order Message
 
 ```java
-String exchange = "symbotic.simulation";
+String exchange = "simulation";
 String routingKey = "sim.order.received";
 OrderReceivedMessage message = new OrderReceivedMessage();
 // ... Set message fields

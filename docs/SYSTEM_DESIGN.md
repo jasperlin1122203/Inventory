@@ -18,7 +18,7 @@ The system uses **long-format CSV** as a replayable order source and drives even
                               ▼
         ┌─────────────────────────────────────────┐
         │         RabbitMQ Message Broker          │
-        │     (Topic Exchange: symbotic.simulation)│
+        │     (Topic Exchange: simulation)│
         └─────────────────────────────────────────┘
                               │
         ┌─────────────────────┼─────────────────────┐
@@ -100,7 +100,7 @@ The system uses **long-format CSV** as a replayable order source and drives even
 - `publishOrder()`: Publish order to RabbitMQ
 
 **Message Publishing:**
-- Exchange: `symbotic.simulation`
+- Exchange: `simulation`
 - Routing Key: `sim.order.received`
 - Message Type: `OrderReceivedMessage`
 
@@ -127,7 +127,7 @@ The system uses **long-format CSV** as a replayable order source and drives even
 - Message Type: `OrderReceivedMessage`
 
 **Message Publishing:**
-- Exchange: `symbotic.simulation`
+- Exchange: `simulation`
 - Routing Key: `sim.inventory.update` (inventory update)
 - Routing Key: `sim.order.processed` (order processing completed)
 
@@ -212,7 +212,7 @@ The system uses **long-format CSV** as a replayable order source and drives even
    └─> Check orders based on simulation time
    └─> Send due orders
    └─> Publish OrderReceivedMessage
-       └─> Exchange: symbotic.simulation
+       └─> Exchange: simulation
        └─> Routing Key: sim.order.received
 
 3. Order Manager
@@ -220,7 +220,7 @@ The system uses **long-format CSV** as a replayable order source and drives even
    └─> Create order entity
    └─> Check inventory
    └─> Publish InventoryUpdateMessage (RESERVE)
-       └─> Exchange: symbotic.simulation
+       └─> Exchange: simulation
        └─> Routing Key: sim.inventory.update
 
 4. Inventory Manager
@@ -231,7 +231,7 @@ The system uses **long-format CSV** as a replayable order source and drives even
 5. Order Manager
    └─> Process order
    └─> Publish InventoryUpdateMessage (DEDUCT)
-       └─> Exchange: symbotic.simulation
+       └─> Exchange: simulation
        └─> Routing Key: sim.inventory.update
 
 6. Inventory Manager
@@ -242,7 +242,7 @@ The system uses **long-format CSV** as a replayable order source and drives even
 7. Order Manager
    └─> Update order status to COMPLETED
    └─> Publish OrderProcessedMessage
-       └─> Exchange: symbotic.simulation
+       └─> Exchange: simulation
        └─> Routing Key: sim.order.processed
    └─> Output log: [HH:mm:ss] ord-000001 completed successfully
 ```

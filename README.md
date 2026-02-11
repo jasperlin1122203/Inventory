@@ -69,8 +69,8 @@ The project design supports the following extensible features for advanced devel
 
 1. **Fork/Clone the Repository**
    ```bash
-   git clone https://github.com/jasperlin1122203/Inventory.git
-   cd Inventory
+   git clone https://gitlab.terrasoftech.com/Jason/inventorysystem.git
+   cd inventorysystem
    ```
 
 2. **Understand the Architecture**
