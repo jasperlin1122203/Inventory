@@ -1,0 +1,118 @@
+spring:
+  application:
+    name: inventory-simulator
+
+  # Server Configuration
+  server:
+    port: 8080
+    error:
+      include-message: always
+      include-stacktrace: on_param
+
+  # RabbitMQ Configuration
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    publisher-confirms: true
+    publisher-returns: true
+    template:
+      mandatory: true
+    # Don't block application startup on connection failure
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 1000
+          max-attempts: 3
+    # Auto-recover connection
+    connection-timeout: 10000
+
+  # H2 Database Configuration
+  datasource:
+    url: jdbc:h2:mem:inventorydb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+  # Jackson Configuration for Java 8 Time support
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+# Application Configuration
+inventory:
+  simulation:
+    enabled: true
+    sim-start-time: "2024-01-13T08:00:00"  # Simulation start time
+    sim-end-time: "2024-01-13T18:00:00"    # Simulation end time
+    tick-seconds: 60                        # Seconds to advance per tick
+    tick-interval-ms: 1000                 # Tick interval (milliseconds)
+    speed-factor: 2.0                      # Speed factor (1.0 = normal speed, 2.0 = 2x speed)
+  
+  order-injector:
+    enabled: true
+    injection-interval-seconds: 5
+    use-csv: true  # Use CSV file to read orders
+    csv-file: data/orders_sample.csv  # CSV file path (relative to resources directory)
+  
+  inventory:
+    csv-file: data/inventory_sample.csv  # Inventory CSV file path
+    auto-initialize: true                # Auto-initialize inventory from CSV on startup
+    initial-stock: 1000                  # Default initial stock (used when not specified in CSV)
+    low-stock-threshold: 100             # Default low stock threshold (used when not specified in CSV)
+    replenishment-quantity: 500          # Auto-replenishment quantity
+
+# Logging
+logging:
+  level:
+    root: INFO
+    com.inventory: INFO
+    com.inventory.service.OrderManager: INFO
+    org.springframework.amqp: WARN
+    org.hibernate: WARN
+    org.hibernate.SQL: WARN
+    org.hibernate.type.descriptor.sql.BasicBinder: WARN
+    org.springframework.web: INFO
+  pattern:
+    console: "[%d{HH:mm:ss}] %msg%n"
+  config: classpath:logback-spring.xml
+
+# Loki Configuration
+loki:
+  enabled: true
+  url: http://localhost:3100/loki/api/v1/push
+  batch:
+    max-items: 100
+    max-bytes: 1048576
+    timeout: 5s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,prometheus"
+  endpoint:
+    prometheus:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
